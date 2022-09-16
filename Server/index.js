@@ -19,10 +19,17 @@
 // sizes of VARCHAR are up to you.
 
 const WebSocketServer = require('websocket').server;
+const { readdirSync } = require('fs');
+const path = require('path');
 const mysql = require('mysql');
 const http = require('http');
 
-const config = require('./privConfig.json') || require('./config');
+let config;
+if ( readdirSync(path.join(__dirname)).filter(file => file.startsWith("privConfig.json"))[0] ) {
+    config = require('./privConfig.json');
+} else {
+    config = require('./config.json');
+}
 
 let server_port = 5000
 

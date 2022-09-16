@@ -1,4 +1,4 @@
 
 {
-    "WS_IP": "ws://your.ws.server:your_port/"
+    "WS_IP": "ws://localhost:5000/"
 }

@@ -12,9 +12,17 @@
 
 const WebSocketClient = require('websocket').client;
 const { app, ipcMain, BrowserWindow } = require('electron');
+const { readdirSync } = require('fs');
 const path = require('path');
 
-const config = require('./privConfig.json') || require('./config');
+
+
+let config;
+if ( readdirSync(path.join(__dirname)).filter(file => file.startsWith("privConfig.json"))[0] ) {
+    config = require('./privConfig.json');
+} else {
+    config = require('./config.json');
+}
 
 var uid;
 

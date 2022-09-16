@@ -1,8 +1,8 @@
 {
-    "DB_HOST": "ip.to.your.database",
-    "DB_USER": "your_database_user",
-    "DB_PASSWD": "your_database_password",
-    "DB": "your_database_table",
+    "DB_HOST": "localhost",
+    "DB_USER": "root",
+    "DB_PASSWD": "iDid2Pn7RTqpGfg",
+    "DB": "backwards_messaging",
 
     "WS_PORT": 5000
 }

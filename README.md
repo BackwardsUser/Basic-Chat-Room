@@ -1,5 +1,5 @@
 # Electron Chat Room
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)<br>
 A simple Chat room made using Electron, A Websocket and MySQL.
 
 ## Setup

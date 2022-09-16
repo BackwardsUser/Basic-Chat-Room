@@ -1,0 +1,5 @@
+Client/privConfig.json
+Client/node_modules
+
+Server/privConfig.json
+Server/node_modules

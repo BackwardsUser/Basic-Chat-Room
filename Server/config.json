@@ -1,0 +1,8 @@
+{
+    "DB_HOST": "ip.to.your.database",
+    "DB_USER": "your_database_user",
+    "DB_PASSWD": "your_database_password",
+    "DB": "your_database_table",
+
+    "WS_PORT": 5000
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='stylesheet' href='./index.css'>
+    <title>Chatroom</title>
+</head>
+
+<body>
+    <div class='chat-box'>
+    </div>
+    <div class='input'>
+        <input class='send send-input' type='text'>
+        <button class='send send-button' onclick='send()'>Send</button>
+    </div>
+</body>
+<script>
+    const { ipcRenderer } = require('electron');
+
+    function send() {
+        const content = document.querySelector('.send-input').value;
+        console.log(content);
+        if (content == undefined) return;
+        ipcRenderer.send('message:send', content)
+    }
+
+    ipcRenderer.send('message:update')
+
+    ipcRenderer.on('message:create', (err, message) => {
+        const msg = JSON.parse(message);
+        if (Object.keys(msg)[1] == 'results') {
+            console.log(msg);
+            Object.values(msg)[1].forEach(e => {
+                const m = document.createElement('div');
+                m.className = 'message';
+                m.innerText = e.content;
+                document.querySelector('.chat-box').append(m);
+            });
+
+        } else {
+            const m = document.createElement('div');
+            m.className = 'message';
+            m.innerText = msg.content;
+            document.querySelector('.chat-box').append(m);
+        }
+    })
+</script>
+
+</html>

@@ -1,8 +1,8 @@
 {
     "DB_HOST": "localhost",
     "DB_USER": "root",
-    "DB_PASSWD": "iDid2Pn7RTqpGfg",
-    "DB": "backwards_messaging",
+    "DB_PASSWD": "<password>",
+    "DB": "<database>",
 
     "WS_PORT": 5000
 }

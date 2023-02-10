@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='stylesheet' href='./index.css'>
+    <title>Chatroom</title>
+</head>
+
+<body>
+    <div class='chat-box'>
+    </div>
+    <div class='input' onclick="send()">
+        <input class='send send-input' type='text'>
+        <button class='send send-button' type="submit">Send</button>
+    </div>
+</body>
+<script>
+    const { ipcRenderer } = require('electron');
+
+    const crypto = require("crypto");
+    const assert = require("assert");
+    const { Buffer } = require("buffer")
+
+    var alg = 'aes-256-cbc';
+
+    function send() {
+        const input = document.querySelector('.send-input');
+        const rawContent = input.value;
+        if (rawContent == "" || rawContent == undefined) return;
+        ipcRenderer.send('message:send', rawContent);
+        input.value = "";
+    }
+
+    window.onkeypress = (e) => {
+        if (!e) e = window.event;
+        if (e.key == "Enter") {
+            send();
+        }
+    }
+
+    addEventListener("DOMContentLoaded", () => {
+        ipcRenderer.send('message:update');
+    })
+
+    ipcRenderer.on('message:create', (err, message) => {
+        const msg = JSON.parse(message);
+        const key = Buffer.from(msg.enc.key);
+        const iv = Buffer.from(msg.enc.iv);
+
+        if (Object.keys(msg)[1] == 'results') {
+            Object.values(msg)[1].forEach(e => {
+                console.log(e.content)
+                const decipher = crypto.createDecipheriv(alg, key, iv);
+                const content = decipher.update(e.content, 'hex', 'utf-8') + decipher.final('utf-8');
+                const m = document.createElement('div');
+                m.className = 'message';
+                m.innerText = content;
+                document.querySelector('.chat-box').append(m);
+            });
+        } else {
+            const decipher = crypto.createDecipheriv(alg, key, iv);
+            const m = document.createElement('div');
+            m.className = 'message';
+            m.innerText = decipher.update(msg.content, 'hex', 'utf-8') + decipher.final('utf-8');
+            document.querySelector('.chat-box').append(m);
+        }
+    })
+</script>
+
+</html>

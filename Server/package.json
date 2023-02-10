@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "author": "BackwardsUser",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "mysql": "^2.18.1",
+    "websocket": "^1.0.34"
+  }
+}

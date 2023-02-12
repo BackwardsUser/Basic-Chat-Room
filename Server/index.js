@@ -19,7 +19,7 @@
 // sizes of VARCHAR are up to you.
 
 const WebSocketServer = require('websocket').server;
-const { readdirSync } = require('fs');
+const { readdirSync, readFileSync, writeFileSync } = require('fs');
 const path = require('path');
 const mysql = require('mysql');
 const http = require('http');
@@ -27,9 +27,19 @@ const http = require('http');
 const crypto = require('crypto');
 const assert = require('assert');
 
-const alg = 'aes-256-cbc';
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
+var enc = {
+    alg: 'aes-256-cbc',
+    key: null,
+    iv: null
+}
+
+const configJSON = readFileSync(path.join(__dirname, "config.json"));
+const configOBJ = JSON.parse(configJSON);
+
+if (!configOBJ.enc.key) configOBJ.enc.key = crypto.randomBytes(32);
+if (!configOBJ.enc.iv) configOBJ.enc.vi = crypto.randomBytes(16);
+
+writeFileSync(path.join(__dirname, "config.json"), JSON.stringify(configOBJ, null, 4));
 
 let config;
 if (readdirSync(path.join(__dirname)).filter(file => file.startsWith("privConfig.json"))[0]) {
@@ -71,7 +81,7 @@ function originIsAllowed(origin) {
 }
 
 function getID() {
-    let newID = 0
+    let newID = 0;
     const unavailableIDs = Object.keys(users);
     for (var i = 0; i < unavailableIDs.length; i++) {
         if (newID != unavailableIDs[i]) return newID;
@@ -89,21 +99,21 @@ wsServer.on('request', function (request) {
     }
 
     const ws_connection = request.accept('echo-protocol', request.origin);
-    ws_connection.id = getID()
+    ws_connection.id = getID();
     users[ws_connection.id] = {
         ip: ws_connection.remoteAddresses,
         connection: ws_connection
     };
     var payload = {
         event_name: 'connectionPayload',
-        key: key,
-        iv: iv
+        key: Buffer.from(config.enc.key),
+        iv: Buffer.from(config.enc.iv)
     };
     ws_connection.sendUTF(JSON.stringify(payload));
 
     try {
         const rawContent = `User ${ws_connection.id} has joined the room.`;
-        const cipher = crypto.createCipheriv(alg, key, iv);
+        const cipher = crypto.createCipheriv(enc.alg, Buffer.from(config.enc.key), Buffer.from(config.enc.iv));
         const content = cipher.update(rawContent, 'utf-8', 'hex') + cipher.final('hex');
         const join = {
             event_name: 'messageCreate',
@@ -141,6 +151,7 @@ wsServer.on('request', function (request) {
                 case 'messageCreate':
                     if (!msg.content) return;
                     db_connection.query(`INSERT INTO messages (authorID, content) VALUES (${msg.author.id}, '${msg.content}');`);
+
                     Object.keys(users).forEach(user => {
                         users[user].connection.sendUTF(JSON.stringify(msg));
                     });
@@ -165,8 +176,8 @@ wsServer.on('request', function (request) {
 
     ws_connection.on('close', (reasonCode, description) => {
         delete users[ws_connection.id];
-        
-        const cipher = crypto.createCipheriv(alg, key, iv);
+
+        const cipher = crypto.createCipheriv(config.enc.alg, Buffer.from(config.enc.key), Buffer.from(config.enc.iv));
         const rawContent = `User ${ws_connection.id} has left the room.`;
         const content = cipher.update(rawContent, 'utf-8', 'hex') + cipher.final('hex');
         const msg = {

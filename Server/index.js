@@ -28,27 +28,23 @@ const crypto = require('crypto');
 const assert = require('assert');
 
 var enc = {
-    alg: 'aes-256-cbc',
-    key: null,
-    iv: null
+    alg: 'aes-256-cbc', // Just the default, feel free to change this.
+    key: null, // KEEP THIS NULL, CHANGE BELOW (ln40)
+    iv: null // KEEP THIS NULL, CHANGE BELOW (ln41)
 }
 
 const configJSON = readFileSync(path.join(__dirname, "config.json"));
 const configOBJ = JSON.parse(configJSON);
 
+if (!configOBJ.enc.alg) configOBJ.enc.alg = enc.alg;
 if (!configOBJ.enc.key) configOBJ.enc.key = crypto.randomBytes(32);
-if (!configOBJ.enc.iv) configOBJ.enc.vi = crypto.randomBytes(16);
+if (!configOBJ.enc.iv) configOBJ.enc.iv = crypto.randomBytes(16);
 
 writeFileSync(path.join(__dirname, "config.json"), JSON.stringify(configOBJ, null, 4));
 
-let config;
-if (readdirSync(path.join(__dirname)).filter(file => file.startsWith("privConfig.json"))[0]) {
-    config = require('./privConfig.json');
-} else {
-    config = require('./config.json');
-}
+let config = require('./config.json');
 
-let server_port = 5000;
+let server_port = config.WS_PORT;
 
 let users = {};
 

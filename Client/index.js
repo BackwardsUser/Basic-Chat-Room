@@ -23,12 +23,7 @@ var encryptionData = {
     iv: null
 }
 
-let config;
-if ( readdirSync(path.join(__dirname)).filter(file => file.startsWith("privConfig.json"))[0] ) {
-    config = require('./privConfig.json');
-} else {
-    config = require('./config.json');
-}
+let config = require('./config.json');
 
 var uid;
 

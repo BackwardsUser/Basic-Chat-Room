@@ -1,0 +1,32 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-app-region: drag;
+    height: 98%;
+}
+
+body {
+    display: flex;
+    height: 100%;
+}
+
+.status {
+    width: max-content;
+    height: max-content;
+    margin: auto;
+    text-align: center;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-app-region: drag;
+    vertical-align: center;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+.status * {
+    margin: 15px;
+}

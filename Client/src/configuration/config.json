@@ -1,0 +1,8 @@
+{
+    "HARDWARE_ACCELERATION" : false,
+    "MAXIMUM_REATTEMPTS" : 3,
+    "TIME_TO_NEXT_STEP" : 3000,
+    "WEBSOCKET_SETTINGS" : {
+        "WS_HOST": "ws://localhost:8080/"
+    }
+}

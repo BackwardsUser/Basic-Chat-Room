@@ -1,0 +1,11 @@
+# Development Stuff
+**/node_modules
+**/*.development.*
+
+
+# Private Stuff
+**/.env
+
+# Website Stuff is just initalized.
+# This site doesn't do anything yet.
+Website

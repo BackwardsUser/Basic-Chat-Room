@@ -56,7 +56,6 @@ main {
     display: grid;
     grid-template-columns: 4fr 1fr;
     grid-template-rows: 12fr 1fr;
-    background-color: white;
     height: 100%;
     width: 100%;
 }
@@ -64,7 +63,6 @@ main {
 .messages {
     grid-column: 1;
     grid-row: 1;
-    background-color: red;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -72,13 +70,12 @@ main {
 .members {
     grid-column: 2;
     grid-row: 1 / span 2;
-    background-color: blue;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: #27323c;
 }
 
 .input {
     grid-column: 1;
     grid-row: 2;
-    background-color: green;
 }

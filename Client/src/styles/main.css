@@ -12,6 +12,16 @@ body {
     overflow-x: hidden;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #757d8a;
+    border: 2px solid #27323c;
+    border-radius: 25px;
+}
+
 /* Header */
 
 header {
@@ -26,6 +36,18 @@ header {
 
 .right * {
     display: inline;
+    padding: 4px 10px;
+    font-size:  1.5em;
+    font-family: Inter;
+    cursor: pointer;
+}
+
+.right *:hover {
+    background-color: #757d8a;
+}
+
+.close:hover {
+    background-color: #7a2020;
 }
 
 .right {
@@ -41,6 +63,10 @@ main {
     height: calc(100% - 77px + 1em);
 }
 
+h4 {
+    font-family: Inter;
+}
+
 .rooms {
     height: 100%;
     min-width: max-content;
@@ -48,6 +74,22 @@ main {
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: #27323c;
+}
+
+.roomButton {
+    background-color: transparent;
+    padding: 10px 5px;
+    margin: 5px 5px;
+    border: 2px solid #757d8a;
+    cursor: pointer;
+    transition-duration: 250ms;
+    font-family: Inter;
+    color: var(--text);
+}
+
+.roomButton:hover {
+    background-color: #757d8a75;
 }
 
 /* Room */
@@ -78,4 +120,9 @@ main {
 .input {
     grid-column: 1;
     grid-row: 2;
+}
+
+.messageInput {
+    width: 75%;
+    font-size: 1.5em;
 }

@@ -12,13 +12,12 @@ var attempt = 0; // Amount of times an attempt has been made to connect to webso
 var window; // Main content window
 var updater; // Updater content window
 
-
 function WaitToNextStep() {
     return new Promise(function (res, rej) {
         setTimeout(() => {
-            res();
+            res()
         }, config.TIME_TO_NEXT_STEP);
-    });
+    })
 }
 
 if (!config.HARDWARE_ACCELERATION) {
@@ -108,7 +107,7 @@ client.on("connect", connection => {
         });
 
         window.loadFile(join(__dirname, "views", "index.html"));
-    })
+    });
 });
 
 app.on("window-all-closed", () => {

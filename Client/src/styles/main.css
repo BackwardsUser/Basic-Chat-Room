@@ -5,11 +5,21 @@ html {
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
     overflow-y: hidden;
     overflow-x: hidden;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #757d8a;
+    border: 2px solid #27323c;
+    border-radius: 25px;
 }
 
 ::-webkit-scrollbar {
@@ -25,15 +35,22 @@ body {
 /* Header */
 
 header {
-    background-color: #212a32;
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding: 0 20px;
+    background-color: #212a32;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    flex-direction: row;
+    user-select: none;
     position: sticky;
+    padding: 0 20px;
+    display: flex;
     top: 0;
     -webkit-user-select: none;
     -webkit-app-region: drag;
+}
+
+h4 {
+    font-family: Inter;
 }
 
 .right * {
@@ -59,10 +76,10 @@ header {
 /* Main Stuff */
 
 main {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     height: calc(100% - 77px + 1em);
+    justify-content: space-between;
+    flex-direction: row;
+    display: flex;
 }
 
 h4 {
@@ -70,61 +87,123 @@ h4 {
 }
 
 .rooms {
-    height: 100%;
-    min-width: max-content;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
     background-color: #27323c;
+    min-width: max-content;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    height: 95%;
 }
 
 .roomButton {
     background-color: transparent;
-    padding: 10px 5px;
-    margin: 5px 5px;
     border: 2px solid #757d8a;
-    cursor: pointer;
     transition-duration: 250ms;
     font-family: Inter;
     color: var(--text);
+    padding: 10px 5px;
+    margin: 5px 5px;
+    cursor: pointer;
 }
 
 .roomButton:hover {
     background-color: #757d8a75;
 }
 
+.join {
+    background-color: #27323c;
+    transition-duration: 250ms;
+    color: #c0cad4;
+    position: sticky;
+    padding: 10px 0;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    top: 0;
+}
+
+.join:hover {
+    background-color: #414d59;
+}
+
 /* Room */
 
 .room {
-    display: grid;
     grid-template-columns: 4fr 1fr;
     grid-template-rows: 12fr 1fr;
+    display: grid;
     height: 100%;
     width: 100%;
 }
 
 .messages {
+    overflow-x: hidden;
+    overflow-y: auto;
     grid-column: 1;
     grid-row: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .members {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    overflow-y: auto;
-    overflow-x: hidden;
     background-color: #27323c;
+    grid-row: 1 / span 2;
+    overflow-x: hidden;
+    overflow-y: auto;
+    grid-column: 2;
+}
+
+.inputs {
+    grid-column: 1;
+    height: 100%;
+    grid-row: 2;
+    width: 100%;
 }
 
 .input {
-    grid-column: 1;
-    grid-row: 2;
+    background-color: #414d59;
+    flex-direction: row;
+    border-radius: 10px;
+    width: max-content;
+    display: flex;
+    margin: auto;
 }
 
 .messageInput {
-    width: 75%;
-    font-size: 1.5em;
+    background-color: transparent;
+    transition-duration: 250ms;
+    height: max-content;
+    padding: .5em .25em;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: auto 0;
+    font-size: 1em;
+    color: #fff;
+    width: 32.5em;
+    outline: none;
+    border: none;
+    margin: 5px;
+}
+
+.messageInput:hover {
+    box-shadow: 1px 1px 10px #212a32,
+        -1px -1px 10px #212a32;
+}
+
+.send {
+    transition-duration: 250ms;
+    aspect-ratio: 1/1;
+    fill: #c0cad4;
+    cursor: pointer;
+    padding: 0 10px;
+    margin: auto;
+    width: 2em;
+}
+
+.send:hover {
+    fill: #6c7987;
+}
+
+.empty {
+    background-color: transparent;
+    border: none;
 }

@@ -3,9 +3,14 @@
 
 import { server } from "websocket";
 import { connection } from "websocket";
-import { user } from "./Interfaces";
+import { CompareVersions, TranslateError } from "./scripts";
+import { User, Config, ServerEvent } from "./Interfaces";
 
-import { createServer } from "node:http";
+import { createServer, Server } from "node:http";
+
+import * as config from "./config.json";
+import { Content, Version } from "./types";
+
 
 var httpServer = createServer(function (req, res) {
     console.log((new Date()) + ' Received request for ' + req.url);
@@ -14,6 +19,7 @@ var httpServer = createServer(function (req, res) {
 });
 httpServer.listen(8080, function () {
     console.log((new Date()) + ' Server is listening on port 8080');
+    console.log(`Server Running on Version: ${config.APP_SETTINGS.VERSION}`);
 });
 
 var wsServer = new server({
@@ -21,12 +27,21 @@ var wsServer = new server({
     autoAcceptConnections: false
 })
 
+function VersionFixer(Version: Content | string): Version {
+    // EWW AN ANY!!
+    // I have to turn this array from an array of strings to an array of numbers.
+    // Hopefully this fixes the issue with my Interface.
+    if (typeof Version !== "string") return null;
+    var SplitVersion: any[] = Version.split(":");
+    return `${SplitVersion[0]}:${SplitVersion[1]}:${SplitVersion[2]}`;
+}
+
 function OriginIsAllowed(origin: string): boolean {
     // Logic to determine if origin should be allowed, too lazy to write right now.
     return true;
 }
 
-var users: user[] = [];
+var users: User[] = [];
 
 function formatSessionID(sessionID: number): string {
     return "0x" + ((sessionID).toString(16).padStart(16, "0").toUpperCase());
@@ -49,6 +64,24 @@ function removeUser(connection: connection): void {
     users.splice(userIndex, 1);
 }
 
+
+function CheckUpdate(ClientVersion: Version): Promise<void> {
+    return new Promise((res, rej) => {
+        var FixedServerVersion = VersionFixer(config.APP_SETTINGS.VERSION);
+        if (FixedServerVersion === null) rej(301)
+        var ComparedVersions = CompareVersions(ClientVersion, FixedServerVersion)
+        if (ComparedVersions === 300) rej(300)
+        else if (ComparedVersions == true) res()
+        else if (ComparedVersions == false) {
+            // Run Code to install the update on the Client.
+            if (false) rej(402) // 203 is called when update fails to be retrieved.
+            res();
+        };
+    })
+}
+
+
+
 wsServer.on('request', function (req) {
     if (!OriginIsAllowed(req.origin)) {
         req.reject();
@@ -59,7 +92,7 @@ wsServer.on('request', function (req) {
     var connection = req.accept('echo-protocol', req.origin);
     console.log((new Date()) + ' Connection accepted.');
 
-    var user: user = {
+    var user: User = {
         sessionID: getNewSessionID(),
         connection: connection
     }
@@ -68,8 +101,46 @@ wsServer.on('request', function (req) {
 
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
-            console.log('Received message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
+            var MessageData: ServerEvent = JSON.parse(message.utf8Data);
+            if (MessageData.Data.Sender === "SERVER") return console.log(`Data Sender "Server". Cannot Parse.`);
+            if (MessageData.Data.Type === "REQUEST") {
+                switch (MessageData.Data.Demand) {
+                    case "MESSAGE":
+                        console.log("Message Request Received.");
+                        break;
+                    case "VERSION":
+                        break;
+                    default:
+                        console.log(`Unknown Demand "${MessageData.Data.Demand}".`);
+                        break;
+                }
+            } else if (MessageData.Data.Type === "SEND") {
+                switch (MessageData.Data.Demand) {
+                    case "MESSAGE":
+                        console.log(`Received Message: "${MessageData.Content.toString()}".`);
+                        break;
+                    case "VERSION":
+                        var FixedVersion = VersionFixer(MessageData.Content);
+                        CheckUpdate(FixedVersion).then(() => {
+
+                            var data: ServerEvent = {
+                                Data: {
+                                    Sender: "SERVER",
+                                    Type: "SEND",
+                                    Demand: "VERSION"
+                                },
+                                Content: 360
+                            }
+
+                            connection.sendUTF(JSON.stringify(data));
+                        }).catch((err) => {
+                            throw new Error(TranslateError(err));
+                        });
+                        break;
+                }
+            } else {
+                console.log(`Unsure Data Type of ${MessageData.Data.Type}.`);
+            }
         }
         else if (message.type === 'binary') {
             console.log('Received binary message of: ' + message.binaryData.length + ' bytes.');

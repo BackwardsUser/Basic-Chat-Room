@@ -1,6 +1,6 @@
 import { connection } from "websocket";
 
-export interface user {
+export interface User {
     sessionID: string
     userData?: undefined
     connection: connection

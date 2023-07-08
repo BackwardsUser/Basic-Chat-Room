@@ -1,3 +1,5 @@
+<sub>Unstable</sub>
+
 # Electron Chat Room
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -8,7 +10,7 @@ A simple Chat room made using Electron, A Websocket and MySQL.
 At this moment in time this branch is unstable as is the rest of the branches.
 For a stable branch please go to the [1.0.0 archive](https://github.com/BackwardsUser/Basic-Chat-Room/tree/1.0.0-(Archive)) branch.
 
-If you do install this app via this branch or other unstable branches, note that it is provided *as is* and updates will come out as I work on them, If you do download via unstable branches please do not demand/badger me for features/updates, updates will be rolled out while I work on this. I do am not working on it full time and am only working on it in my free time.
+If you do install this app via this branch or other unstable branches, note that it is provided **as is** and updates will come out as I work on them, If you do download via unstable branches please do not demand/badger me for features/updates, updates will be rolled out while I work on this. I do am not working on it full time and am only working on it in my free time.
 
 ### Road Map and Updates
 

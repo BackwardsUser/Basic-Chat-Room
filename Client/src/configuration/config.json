@@ -4,5 +4,8 @@
     "TIME_TO_NEXT_STEP" : 3000,
     "WEBSOCKET_SETTINGS" : {
         "WS_HOST": "ws://localhost:8080/"
+    },
+    "APP_SETTINGS": {
+        "VERSION": "-0.0.0"
     }
 }

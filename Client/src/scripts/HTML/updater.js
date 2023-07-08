@@ -1,8 +1,8 @@
-const { readFileSync } = require("fs");
-const { join } = require("path");
-const { ipcRenderer } = require("electron");
+const { ipcRenderer } = require('electron');
+const { readFileSync } = require('fs');
+const { join } = require('path');
 
-const config = require("../configuration/config.json");
+const config = require(join(__dirname, "..", "configuration", "config.json"));
 
 var splashes = readFileSync(join(__dirname, "..", "assets", "messages", "updaterSplashes.txt"), "utf8").split(/\r?\n/);
 var ran = Math.floor(Math.random() * splashes.length);
@@ -26,7 +26,7 @@ var loadingDots = setInterval(() => {
     topText.innerText = topTextString + topTextLoad;
     if (topTextLoad.split("").length == 3) topTextLoad = ""
     else topTextLoad += ".";
-}, config.TIME_TO_NEXT_STEP/4);
+}, config.TIME_TO_NEXT_STEP / 4);
 
 ipcRenderer.on("LOADING:UPDATE:WEBSOCKET:FAILED", () => {
     clearInterval(loadingDots);
@@ -41,13 +41,25 @@ ipcRenderer.on("LOADING:UPDATE:WEBSOCKET:SUCCESS", () => {
     topText.innerText = topTextString;
 });
 
-ipcRenderer.on("LOADING:UPDATE:APPLICATION:STARTING", () => {
+ipcRenderer.on("LOADING:UPDATE:VERSION:CHECK", () => {
     loadingDots = setInterval(() => {
         topText.innerText = topTextString + topTextLoad;
         if (topTextLoad.split("").length == 3) topTextLoad = ""
         else topTextLoad += ".";
-    }, config.TIME_TO_NEXT_STEP/4);
+    }, config.TIME_TO_NEXT_STEP / 4);
 
-    topTextString = "Starting App";
+    topTextString = "Checking Version";
+    topText.innerText = topTextString;
+});
+
+ipcRenderer.on("LOADING:UPDATE:VERSION:INVALID", (e, code) => {
+    clearInterval(loadingDots);
+
+    topTextString = TranslateError(code).toString();
     topText.innerText = topTextString;
 })
+
+ipcRenderer.on("LOADING:UPDATE:APPLICATION:STARTING", () => {
+    topTextString = "Starting App";
+    topText.innerText = topTextString;
+});

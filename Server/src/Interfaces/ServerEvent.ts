@@ -1,4 +1,4 @@
-import { EventSender, EventType, EventDemand, Content } from "../Types";
+import { EventSender, EventType, EventDemand, Content } from "../types";
 
 interface Data {
     Sender: EventSender

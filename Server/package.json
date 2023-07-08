@@ -4,7 +4,7 @@
   "description": "Server side of a chatroom I am working on.",
   "main": "src/index.js",
   "scripts": {
-    "test": "nodemon ./src/index.ts"
+    "test": "nodemon --ext .ts ./src/index.ts"
   },
   "author": "Backwards",
   "license": "MIT",

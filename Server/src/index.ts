@@ -1,5 +1,6 @@
-// Just a Dummy Server
-// Makes "fake" returns to the client
+
+
+console.log(-0 == 0)
 
 import { server } from "websocket";
 import { connection } from "websocket";

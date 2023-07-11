@@ -1,5 +1,6 @@
 {
     "APP_SETTINGS": {
-        "VERSION": "-0.0.0"
+        "VERSION": "-0.0.0",
+        "NIGHTLY_VERSION": "-0.0.0"
     }
 }

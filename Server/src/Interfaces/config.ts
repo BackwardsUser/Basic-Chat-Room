@@ -1,5 +1,8 @@
+import { Version } from "../types"
+
 interface AppSettings {
-    VERSION: `${number}.${number}.${number}`
+    VERSION: Version
+    NIGHTLY_VERSION: Version
 }
 
 export interface Config {

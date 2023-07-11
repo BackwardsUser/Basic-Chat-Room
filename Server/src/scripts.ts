@@ -10,8 +10,8 @@ import { Version } from "./types";
  * @returns Whether the Client needs to update. Returns Null if Client > Server
  */
 export function CompareVersions(ClientVersion: Version, ServerVersion: Version): boolean | number {
-    var SplitClientVersion = ClientVersion.split(":");
-    var SplitServerVersion = ServerVersion.split(":");
+    var SplitClientVersion = ClientVersion.split(".s");
+    var SplitServerVersion = ServerVersion.split(".");
 
     // Versioning System is based on Major:Minor:Patch and we can assume that there will be 3 numbers in the above vars
     if (SplitClientVersion.length > 3) return null; // Verifying in the case users tamper with their version (Unlikely)

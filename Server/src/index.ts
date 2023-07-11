@@ -33,7 +33,7 @@ function VersionFixer(Version: Content | string): Version {
     // Hopefully this fixes the issue with my Interface.
     if (typeof Version !== "string") return null;
     var SplitVersion: any[] = Version.split(":");
-    return `${SplitVersion[0]}:${SplitVersion[1]}:${SplitVersion[2]}`;
+    return `${SplitVersion[0]}.${SplitVersion[1]}.${SplitVersion[2]}`;
 }
 
 function OriginIsAllowed(origin: string): boolean {

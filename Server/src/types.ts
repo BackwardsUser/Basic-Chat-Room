@@ -17,7 +17,7 @@ type Content = string
     | number[]
     | object[]
 
-type Version = `${number}:${number}:${number}`
+type Version = `${number}.${number}.${number}`
 
 export {
     EventSender,

@@ -13,8 +13,6 @@ export function CompareVersions(ClientVersion: Version, ServerVersion: Version):
     var SplitClientVersion = ClientVersion.split(".");
     var SplitServerVersion = ServerVersion.split(".");
 
-    console.log(ClientVersion, ServerVersion)
-
     // Versioning System is based on Major:Minor:Patch and we can assume that there will be 3 numbers in the above vars
     if (SplitClientVersion.length > 3) return null; // Verifying in the case users tamper with their version (Unlikely)
     if (SplitServerVersion.length > 3) return null; // Verifying I don't mess anything up.

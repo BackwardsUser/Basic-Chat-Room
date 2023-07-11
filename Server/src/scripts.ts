@@ -1,6 +1,6 @@
 import { ErrorCodes } from "./ErrorCodes";
 import { ErrorCode } from "./Interfaces";
-import { Version } from "./types";
+import { Content, Version } from "./types";
 
 /**
  * @BackwardsUser
@@ -12,6 +12,8 @@ import { Version } from "./types";
 export function CompareVersions(ClientVersion: Version, ServerVersion: Version): boolean | number {
     var SplitClientVersion = ClientVersion.split(".");
     var SplitServerVersion = ServerVersion.split(".");
+
+    console.log(ClientVersion, ServerVersion)
 
     // Versioning System is based on Major:Minor:Patch and we can assume that there will be 3 numbers in the above vars
     if (SplitClientVersion.length > 3) return null; // Verifying in the case users tamper with their version (Unlikely)
@@ -37,4 +39,13 @@ export function CompareVersions(ClientVersion: Version, ServerVersion: Version):
  */
 export function TranslateError(Code: number): string {
     return ErrorCodes.filter((ECode: ErrorCode) => ECode.Code === Code)[0].Error;
+}
+
+export function VersionFixer(Version: Content | string): Version {
+    // EWW AN ANY!!
+    // I have to turn this array from an array of strings to an array of numbers.
+    // Hopefully this fixes the issue with my Interface.
+    if (typeof Version !== "string") return null;
+    var SplitVersion: any[] = Version.split(".");
+    return `${SplitVersion[0]}.${SplitVersion[1]}.${SplitVersion[2]}`;
 }

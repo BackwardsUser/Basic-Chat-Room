@@ -3,7 +3,7 @@
 
 import { server } from "websocket";
 import { connection } from "websocket";
-import { CompareVersions, TranslateError } from "./scripts";
+import { CompareVersions, TranslateError, VersionFixer } from "./scripts";
 import { User, Config, ServerEvent } from "./Interfaces";
 
 import { createServer, Server } from "node:http";
@@ -26,15 +26,6 @@ var wsServer = new server({
     httpServer: httpServer,
     autoAcceptConnections: false
 })
-
-function VersionFixer(Version: Content | string): Version {
-    // EWW AN ANY!!
-    // I have to turn this array from an array of strings to an array of numbers.
-    // Hopefully this fixes the issue with my Interface.
-    if (typeof Version !== "string") return null;
-    var SplitVersion: any[] = Version.split(":");
-    return `${SplitVersion[0]}.${SplitVersion[1]}.${SplitVersion[2]}`;
-}
 
 function OriginIsAllowed(origin: string): boolean {
     // Logic to determine if origin should be allowed, too lazy to write right now.
@@ -69,6 +60,7 @@ function CheckUpdate(ClientVersion: Version): Promise<void> {
     return new Promise((res, rej) => {
         var FixedServerVersion = VersionFixer(config.APP_SETTINGS.VERSION);
         if (FixedServerVersion === null) rej(301)
+        console.log(config.APP_SETTINGS.VERSION)
         var ComparedVersions = CompareVersions(ClientVersion, FixedServerVersion)
         if (ComparedVersions === 300) rej(300)
         else if (ComparedVersions == true) res()

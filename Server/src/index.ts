@@ -57,7 +57,9 @@ function removeUser(connection: connection): void {
 
 function CheckUpdate(ClientVersion: Version): Promise<void> {
     return new Promise((res, rej) => {
-        var FixedServerVersion = VersionFixer(config.APP_SETTINGS.VERSION);
+
+        var FixedServerVersion: Version = (ClientVersion.startsWith("~")) ? VersionFixer(config.APP_SETTINGS.VERSION) : VersionFixer(config.APP_SETTINGS.NIGHTLY_VERSION);
+        if (ClientVersion.startsWith("~"))
         if (FixedServerVersion === null) rej(301)
         console.log(config.APP_SETTINGS.VERSION)
         var ComparedVersions = CompareVersions(ClientVersion, FixedServerVersion)

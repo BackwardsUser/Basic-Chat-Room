@@ -1,6 +1,4 @@
-
-
-console.log(-0 == 0)
+// Add Watermark (Too lazy to right now)
 
 import { server } from "websocket";
 import { connection } from "websocket";

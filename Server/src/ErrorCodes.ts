@@ -28,7 +28,7 @@ export var ErrorCodes: ErrorCode[] = [
 // xxx
 
 // 1xx - This Indicates where the error originated. Websocket, Download, Version, etc.
-// x1x - This Indicated the importance of the Error, The closer to 1 the less of an issue. ex. 0 - Successful, While: 9 - Websocket Failed to Connect.
+// x1x - This Indicated the importance of the Error, The closer to 1 the less of an issue. ex. 0 - No Concern, While: 9 - Major Concern.
 // xx1 - This is the error code itself. This is what tells you what the issue was.
 
 // None of this is really necessary, I could make them completely random, but that would be more confusing for me.

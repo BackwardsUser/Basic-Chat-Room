@@ -3,15 +3,6 @@
     src: url("../assets/Fonts/Inter-Regular.ttf");
 }
 
-:root {
-    --text: #d3d8dc;
-    --background: #323d46;
-    --accent-color: #5b00ff;
-    --primary-button: #220753;
-    --secondary-button: #693abf;
-}
-
-body {
-    background-color: var(--background);
-    color: var(--text);
+* {
+    font-family: Inter;
 }

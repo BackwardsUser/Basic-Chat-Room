@@ -61,11 +61,10 @@ function CheckUpdate(ClientVersion: Version): Promise<void> {
         var FixedServerVersion: Version = (ClientVersion.startsWith("~")) ? VersionFixer(config.APP_SETTINGS.VERSION) : VersionFixer(config.APP_SETTINGS.NIGHTLY_VERSION);
         if (ClientVersion.startsWith("~"))
         if (FixedServerVersion === null) rej(301)
-        console.log(config.APP_SETTINGS.VERSION)
         var ComparedVersions = CompareVersions(ClientVersion, FixedServerVersion)
         if (ComparedVersions === 300) rej(300)
         else if (ComparedVersions == true) res()
-        else if (ComparedVersions == false) {
+        else {
             // Run Code to install the update on the Client.
             if (false) rej(402) // 203 is called when update fails to be retrieved.
             res();
@@ -122,7 +121,7 @@ wsServer.on('request', function (req) {
                                     Type: "SEND",
                                     Demand: "VERSION"
                                 },
-                                Content: 360
+                                Content: 100
                             }
 
                             connection.sendUTF(JSON.stringify(data));

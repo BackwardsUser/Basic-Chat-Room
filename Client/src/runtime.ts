@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, contextBridge, ipcMain } from 'electron';
 import { readFile, readFileSync } from "fs";
 import { ServerEvent } from './Interfaces';
 import { join } from "path";
@@ -36,6 +36,7 @@ app.on("ready", () => {
         alwaysOnTop: true,
         center: true,
         resizable: false,
+        darkTheme: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false

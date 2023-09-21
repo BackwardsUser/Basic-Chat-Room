@@ -17,14 +17,14 @@ export function CompareVersions(ClientVersion: Version, ServerVersion: Version):
     if (SplitClientVersion.length > 3) return null; // Verifying in the case users tamper with their version (Unlikely)
     if (SplitServerVersion.length > 3) return null; // Verifying I don't mess anything up.
 
-    var ClientOutdated: boolean | number = false;
+    var ClientOutdated: boolean | number = true;
 
     for (var i = 0; i <= 3; i++) {
-        if (SplitClientVersion[i] < SplitServerVersion[i]) ClientOutdated = true
-        else if (SplitClientVersion[i] == SplitServerVersion[i]) ClientOutdated = false
+        if (SplitClientVersion[i] < SplitServerVersion[i]) ClientOutdated = false
+        else if (SplitClientVersion[i] == SplitServerVersion[i]) ClientOutdated = true
         else ClientOutdated = 300;
     }
-
+    
     return ClientOutdated;
 }
 

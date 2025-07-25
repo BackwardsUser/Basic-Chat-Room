@@ -1,5 +1,8 @@
 <sub>Unstable</sub>
 
+# Deceased
+Likely won't work on this project anymore. There's a chance, but I have no interest at the moment.
+
 # Electron Chat Room
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
